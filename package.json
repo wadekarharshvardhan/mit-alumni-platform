@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {},
   "dependencies": {
+    "@upstash/redis": "^1.35.2",
     "nodemailer": "^6.9.8"
   }
 }

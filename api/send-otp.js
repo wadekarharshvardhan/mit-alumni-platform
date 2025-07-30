@@ -3,8 +3,11 @@
 
 const nodemailer = require('nodemailer');
 
-// In-memory store for OTPs (for demo; use a DB in production)
-const otpStore = {};
+const { Redis } = require('@upstash/redis');
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -23,7 +26,8 @@ module.exports = async (req, res) => {
   }
 
   const otp = generateOTP();
-  otpStore[email] = otp;
+  // Store OTP in Redis for 5 minutes
+  await redis.set(email, otp, { ex: 300 });
 
   // Log environment variables for debugging (do not log secrets in production)
   console.log('SMTP_USER:', process.env.SMTP_USER);

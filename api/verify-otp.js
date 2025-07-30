@@ -1,8 +1,11 @@
 // /api/verify-otp.js
 // Vercel serverless function to verify OTPs (demo: in-memory)
 
-// Use the same in-memory store as send-otp.js (for demo only)
-const otpStore = require('./send-otp.js').otpStore || {};
+const { Redis } = require('@upstash/redis');
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 module.exports = (req, res) => {
   if (req.method !== 'POST') {
@@ -16,10 +19,17 @@ module.exports = (req, res) => {
     return;
   }
 
-  if (otpStore[email] && otpStore[email] === otp) {
-    delete otpStore[email]; // OTP used, remove it
-    res.status(200).json({ success: true });
-  } else {
-    res.status(400).json({ error: 'Invalid OTP' });
-  }
+  (async () => {
+    try {
+      const storedOtp = await redis.get(email);
+      if (storedOtp && storedOtp === otp) {
+        await redis.del(email);
+        res.status(200).json({ success: true });
+      } else {
+        res.status(400).json({ error: 'Invalid OTP' });
+      }
+    } catch (err) {
+      res.status(500).json({ error: 'Server error', details: err.message });
+    }
+  })();
 };
