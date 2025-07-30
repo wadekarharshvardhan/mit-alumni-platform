@@ -25,12 +25,19 @@ module.exports = async (req, res) => {
   const otp = generateOTP();
   otpStore[email] = otp;
 
-  // Configure your SMTP transport (use environment variables in production)
+  // Log environment variables for debugging (do not log secrets in production)
+  console.log('SMTP_USER:', process.env.SMTP_USER);
+  console.log('SMTP_HOST:', process.env.SMTP_HOST);
+  console.log('SMTP_PORT:', process.env.SMTP_PORT);
+
+  // Use SMTP transport with host/port for flexibility
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT) : 465,
+    secure: !process.env.SMTP_PORT || process.env.SMTP_PORT === '465', // true for 465, false for 587
     auth: {
-      user: process.env.SMTP_USER, // your Gmail address
-      pass: process.env.SMTP_PASS  // your Gmail app password
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS
     }
   });
 
@@ -45,6 +52,7 @@ module.exports = async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ success: true });
   } catch (err) {
+    console.error('Failed to send email:', err);
     res.status(500).json({ error: 'Failed to send email', details: err.message });
   }
 };
