@@ -1,0 +1,10 @@
+{
+  "name": "mit-alumni-platform",
+  "version": "1.0.0",
+  "description": "MIT School Alumni Platform",
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {
+    "nodemailer": "^6.9.8"
+  }
+}
