@@ -117,9 +117,27 @@ loginForm.onsubmit = function(e) {
         <h3>Welcome, ${user.name}!</h3>
         <p>Batch: ${user.batch}</p>
         <p class="success">You are now logged in as an MIT School alumnus.</p>
+        <button id="view-directory" class="directory-btn">View Alumni Directory</button>
       </section>
+      <section id="alumni-directory-section" style="display:none;"></section>
     `;
+    document.getElementById('view-directory').onclick = function() {
+      showAlumniDirectory();
+    };
   } else {
     alert('Invalid email or password!');
   }
 };
+
+// Show alumni directory
+function showAlumniDirectory() {
+  const directorySection = document.getElementById('alumni-directory-section');
+  if (!directorySection) return;
+  let html = `<h3>Alumni Directory</h3><table class="alumni-table"><thead><tr><th>Name</th><th>Batch</th><th>Email</th></tr></thead><tbody>`;
+  for (const u of users) {
+    html += `<tr><td>${u.name}</td><td>${u.batch}</td><td>${u.email}</td></tr>`;
+  }
+  html += '</tbody></table>';
+  directorySection.innerHTML = html;
+  directorySection.style.display = 'block';
+}
