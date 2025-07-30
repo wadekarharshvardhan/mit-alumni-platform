@@ -75,7 +75,7 @@
       const user = JSON.parse(jsonPayload);
       document.getElementById('main-content').innerHTML = `
         <section class="welcome-section">
-          <h3>Welcome, ${user.name || user.email}!</h3>
+          <h3 style="text-align: center;">Welcome, ${user.name || user.email}!</h3>
           <p>Email: ${user.email}</p>
           <p class="success">You are now logged in with Google.</p>
         </section>
