@@ -15,7 +15,7 @@
         <img src="MITVGS.png" alt="MIT VGS Logo" class="logo" />
       </div>
       <h1>MIT School Alumni Platform</h1>
-      <nav class="main-navbar" id="main-navbar" style="display:none;">
+      <nav class="main-navbar" id="main-navbar" style="display:flex;">
         <button id="nav-directory">Directory</button>
         <button id="nav-news">News/Alerts</button>
         <span id="nav-user" style="margin-left:1em;"></span>
@@ -77,28 +77,13 @@
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
       const user = JSON.parse(jsonPayload);
-      // Show navbar
-      document.getElementById('main-navbar').style.display = 'flex';
-      document.getElementById('nav-user').textContent = user.name || user.email;
-      // Show homepage with directory as default
       document.getElementById('main-content').innerHTML = `
         <section class="welcome-section">
           <h3 style="text-align: center;">Welcome, ${user.name || user.email}!</h3>
           <p>Email: ${user.email}</p>
           <p class="success">You are now logged in with Google.</p>
         </section>
-        <section id="alumni-directory-section"></section>
       `;
-      // Directory button handler
-      document.getElementById('nav-directory').onclick = function() {
-        showAlumniDirectory();
-      };
-      // News/Alerts button handler (placeholder)
-      document.getElementById('nav-news').onclick = function() {
-        document.getElementById('main-content').innerHTML = `<section class='news-section'><h3>News & Alerts</h3><p>No news yet.</p></section>`;
-      };
-      // Show directory by default
-      showAlumniDirectory();
     }
   </script>
 </body>
