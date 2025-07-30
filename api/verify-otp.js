@@ -24,13 +24,17 @@ module.exports = (req, res) => {
     try {
       const storedOtp = await redis.get(email);
       console.log('OTP get for', email, ':', storedOtp, 'user entered:', otp);
-      if (storedOtp && storedOtp === otp) {
+      // Ensure both are strings for comparison
+      if (typeof storedOtp !== 'undefined' && storedOtp !== null && String(storedOtp) === String(otp)) {
         await redis.del(email);
+        console.log('OTP verified successfully for', email);
         res.status(200).json({ success: true });
       } else {
+        console.log('OTP verification failed for', email, 'stored:', storedOtp, 'entered:', otp);
         res.status(400).json({ error: 'Invalid OTP' });
       }
     } catch (err) {
+      console.error('OTP verification error:', err);
       res.status(500).json({ error: 'Server error', details: err.message });
     }
   })();
