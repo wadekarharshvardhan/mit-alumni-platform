@@ -23,6 +23,20 @@ regForm.onsubmit = async function(e) {
   let email = document.getElementById('reg-email').value.trim().toLowerCase();
   const batch = document.getElementById('reg-batch').value.trim();
   const password = document.getElementById('reg-password').value;
+  // Password validation rules
+  const passwordRules = [
+    { regex: /.{8,}/, message: 'Password must be at least 8 characters.' },
+    { regex: /[A-Z]/, message: 'Password must contain at least one uppercase letter.' },
+    { regex: /[a-z]/, message: 'Password must contain at least one lowercase letter.' },
+    { regex: /[0-9]/, message: 'Password must contain at least one digit.' },
+    { regex: /[^A-Za-z0-9]/, message: 'Password must contain at least one special character.' }
+  ];
+  for (const rule of passwordRules) {
+    if (!rule.regex.test(password)) {
+      alert(rule.message);
+      return;
+    }
+  }
   if (users.find(u => u.email === email)) {
     alert('Email already registered!');
     return;
