@@ -112,18 +112,7 @@ loginForm.onsubmit = function(e) {
   const password = document.getElementById('login-password').value;
   const user = users.find(u => u.email === email && u.password === password);
   if (user) {
-    document.getElementById('main-content').innerHTML = `
-      <section class="welcome-section">
-        <h3>Welcome, ${user.name}!</h3>
-        <p>Batch: ${user.batch}</p>
-        <p class="success">You are now logged in as an MIT School alumnus.</p>
-        <button id="view-directory" class="directory-btn">View Alumni Directory</button>
-      </section>
-      <section id="alumni-directory-section" style="display:none;"></section>
-    `;
-    document.getElementById('view-directory').onclick = function() {
-      showAlumniDirectory();
-    };
+    window.location.href = 'home.html';
   } else {
     alert('Invalid email or password!');
   }

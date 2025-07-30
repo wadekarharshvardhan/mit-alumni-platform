@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIT School Alumni Platform - Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="logo.png" />
+</head>
+<body>
+  <div class="container">
+    <header class="modern-header">
+      <div class="logo-wrap">
+        <img src="MITVGS.png" alt="MIT VGS Logo" class="logo" />
+      </div>
+      <h1>MIT School Alumni Platform</h1>
+      <nav class="main-navbar">
+        <button id="nav-directory">Directory</button>
+        <button id="nav-news">News/Alerts</button>
+        <button id="nav-logout">Logout</button>
+        <span id="nav-user" style="margin-left:1em;"></span>
+      </nav>
+    </header>
+    <main>
+      <section class="home-section">
+        <div class="slideshow-container">
+          <img class="slide-img" src="school.jpg" alt="School Photo" style="display:block;">
+          <img class="slide-img" src="main view.jpg" alt="Main View" style="display:none;">
+          <img class="slide-img" src="school_view.jpg" alt="School View" style="display:none;">
+          <img class="slide-img" src="corridor.jpg" alt="Corridor" style="display:none;">
+          <img class="slide-img" src="otehrview.jpg" alt="Other View" style="display:none;">
+          <img class="slide-img" src="view.jpg" alt="View" style="display:none;">
+        </div>
+        <div class="slideshow-dots" id="slideshow-dots"></div>
+        <h2 style="text-align:center; margin-top:2rem;">Welcome to the MIT School Alumni Platform</h2>
+        <p style="text-align:center;">Stay connected, explore the alumni directory, and get the latest news and alerts!</p>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2025 MIT School Alumni Platform | Powered by <a href="https://synthbaysolutions.vercel.app" target="_blank">SynthBay Solutions</a></p>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    // TODO: Add slideshow JS and navbar logic here
+    // Example: document.getElementById('nav-logout').onclick = function() { location.href = 'index.html'; };
+  </script>
+</body>
+</html>
