@@ -19,15 +19,18 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const { email } = req.body;
+
+  let { email } = req.body;
   if (!email) {
     res.status(400).json({ error: 'Email is required' });
     return;
   }
+  email = email.trim().toLowerCase();
 
   const otp = generateOTP();
   // Store OTP in Redis for 5 minutes
   await redis.set(email, otp, { ex: 300 });
+  console.log('OTP set for', email, ':', otp);
 
   // Log environment variables for debugging (do not log secrets in production)
   console.log('SMTP_USER:', process.env.SMTP_USER);

@@ -20,7 +20,7 @@ const regForm = document.getElementById('register-form');
 regForm.onsubmit = async function(e) {
   e.preventDefault();
   const name = document.getElementById('reg-name').value.trim();
-  const email = document.getElementById('reg-email').value.trim();
+  let email = document.getElementById('reg-email').value.trim().toLowerCase();
   const batch = document.getElementById('reg-batch').value.trim();
   const password = document.getElementById('reg-password').value;
   if (users.find(u => u.email === email)) {
@@ -54,15 +54,16 @@ function showOtpInput(email, userData) {
   document.getElementById('otp-form').onsubmit = async function(e) {
     e.preventDefault();
     const otp = document.getElementById('otp-code').value.trim();
+    const normEmail = email.trim().toLowerCase();
     try {
       const resp = await fetch('/api/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp })
+        body: JSON.stringify({ email: normEmail, otp })
       });
       const data = await resp.json();
       if (data.success) {
-        users.push({ ...userData, email });
+        users.push({ ...userData, email: normEmail });
         alert('Registration successful! You can now login.');
         registerSection.style.display = 'none';
         loginSection.style.display = 'block';
@@ -76,10 +77,11 @@ function showOtpInput(email, userData) {
   document.getElementById('resend-otp').onclick = async function(e) {
     e.preventDefault();
     try {
+      const normEmail = email.trim().toLowerCase();
       await fetch('/api/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email: normEmail })
       });
       alert('OTP resent!');
     } catch (err) {

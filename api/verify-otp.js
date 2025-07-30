@@ -13,15 +13,17 @@ module.exports = (req, res) => {
     return;
   }
 
-  const { email, otp } = req.body;
+  let { email, otp } = req.body;
   if (!email || !otp) {
     res.status(400).json({ error: 'Email and OTP are required' });
     return;
   }
+  email = email.trim().toLowerCase();
 
   (async () => {
     try {
       const storedOtp = await redis.get(email);
+      console.log('OTP get for', email, ':', storedOtp, 'user entered:', otp);
       if (storedOtp && storedOtp === otp) {
         await redis.del(email);
         res.status(200).json({ success: true });
